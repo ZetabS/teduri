@@ -7,11 +7,11 @@ import { promisify } from "node:util";
 
 type FileConfigWithContent = {
   content: Record<string, unknown>;
-  text?: never;
+  text: null;
 };
 
 type FileConfigWithText = {
-  content?: never;
+  content: null;
   text: string;
 };
 
@@ -45,9 +45,9 @@ async function main(): Promise<void> {
       const file = weave.files[target]!;
       let data: string;
 
-      if (file.content !== undefined) {
+      if (file.content !== null) {
         data = JSON.stringify(file.content, null, 2) + "\n";
-      } else if (file.text !== undefined) {
+      } else if (file.text !== null) {
         data = file.text;
       } else {
         throw new Error("file content or text is required");
