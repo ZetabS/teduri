@@ -9,5 +9,5 @@
     "exactOptionalPropertyTypes": true,
     "verbatimModuleSyntax": true
   },
-  "include": ["src"]
+  "include": ["src", "ox{fmt,lint}.config.ts"]
 }
