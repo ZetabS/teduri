@@ -10,6 +10,8 @@
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
+
+      weave = pkgs.callPackage ./package.nix { };
     in
     {
       devShells.${system}.default = pkgs.mkShell {
@@ -17,6 +19,11 @@
           nodejs
           pnpm
         ];
+      };
+
+      packages.${system} = {
+        default = weave;
+        inherit weave;
       };
     };
 }
