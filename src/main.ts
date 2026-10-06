@@ -5,17 +5,22 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 import { promisify } from "node:util";
 
-type FileMetadata = {
-  content?: {
-    [key: string]: unknown;
-  };
-  text?: string;
+type FileConfigWithContent = {
+  content: { [key: string]: unknown };
+  text?: never;
 };
+
+type FileConfigWithText = {
+  content?: never;
+  text: string;
+};
+
+type FileConfig = FileConfigWithContent | FileConfigWithText;
 
 type Configuration = {
   weave: {
     files: {
-      [target: string]: FileMetadata;
+      [target: string]: FileConfig;
     };
   };
 };
