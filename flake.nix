@@ -12,6 +12,7 @@
       pkgs = nixpkgs.legacyPackages.${system};
 
       weave = pkgs.callPackage ./package.nix { };
+      weaveLib = import ./nix/lib.nix { inherit (nixpkgs) lib; };
     in
     {
       devShells.${system}.default = pkgs.mkShell {
@@ -24,6 +25,10 @@
       packages.${system} = {
         default = weave;
         inherit weave;
+      };
+
+      checks.${system} = {
+        basic = import ./nix/tests/basic.nix { inherit pkgs weaveLib; };
       };
     };
 }
