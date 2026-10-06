@@ -12,7 +12,6 @@ in
               with types;
               attrsOf (submodule {
                 options = {
-                  target = mkOption { type = types.str; };
                   content = mkOption { type = types.anything; };
                 };
               });

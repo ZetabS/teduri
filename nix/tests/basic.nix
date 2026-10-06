@@ -7,9 +7,7 @@ let
   evaluated = weaveLib.evalConfiguration {
     modules = [
       {
-        weave.files.test = {
-          target = ".config/test/settings.json";
-
+        weave.files.".config/test/settings.json" = {
           content = {
             hello = "world";
           };
@@ -18,11 +16,9 @@ let
     ];
   };
 
-  actual = evaluated.config.weave.files.test;
+  actual = evaluated.config.weave.files.".config/test/settings.json";
 
   expected = {
-    target = ".config/test/settings.json";
-
     content = {
       hello = "world";
     };

@@ -1,7 +1,5 @@
 {
-  weave.files.test = {
-    target = ".config/test/settings.json";
-
+  weave.files."tmp/.config/test/settings.json" = {
     content = {
       hello = "world";
     };
