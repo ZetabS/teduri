@@ -27,6 +27,8 @@
         inherit weave;
       };
 
+      lib = import ./nix/lib.nix;
+
       checks.${system} = {
         basic = import ./nix/tests/basic.nix { inherit pkgs weaveLib; };
       };
