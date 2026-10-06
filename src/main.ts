@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { execFile } from "node:child_process";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 import { promisify } from "node:util";
 
@@ -56,11 +56,42 @@ async function main(): Promise<void> {
       await mkdir(dirname(target), { recursive: true });
       await writeFile(target, data, { flag: "wx" });
     }
+  } else if (command === "status") {
+    if (!ref) {
+      throw new Error("flake ref is required");
+    }
 
-    return;
+    const { weave } = await evalWeaveConfiguration(ref);
+
+    for (const target in weave.files) {
+      const file = weave.files[target]!;
+      let actual: string;
+      try {
+        actual = await readFile(target, "utf8");
+      } catch (err) {
+        if (err instanceof Error) {
+          console.log(`${target}: missing`);
+          return;
+        } else {
+          throw new Error("unexpected error", { cause: err });
+        }
+      }
+
+      if (file.content !== null) {
+        console.log(`${target}: structured status not implemented yet`);
+      } else if (file.text !== null) {
+        if (actual === file.text) {
+          console.log(`${target}: clean`);
+        } else {
+          console.log(`${target}: modified`);
+        }
+      } else {
+        throw new Error("file content or text is required");
+      }
+    }
+  } else {
+    throw new Error(`unknown command: ${command ?? "<none>"}`);
   }
-
-  throw new Error(`unknown command: ${command ?? "<none>"}`);
 }
 
 main().catch((error) => {
