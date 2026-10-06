@@ -6,7 +6,7 @@ import { dirname } from "node:path";
 import { promisify } from "node:util";
 
 type FileConfigWithContent = {
-  content: { [key: string]: unknown };
+  content: Record<string, unknown>;
   text?: never;
 };
 
@@ -19,9 +19,7 @@ type FileConfig = FileConfigWithContent | FileConfigWithText;
 
 type Configuration = {
   weave: {
-    files: {
-      [target: string]: FileConfig;
-    };
+    files: Record<string, FileConfig>;
   };
 };
 
