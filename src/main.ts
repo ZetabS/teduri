@@ -1,21 +1,50 @@
 #!/usr/bin/env node
 
+import { execFile } from "node:child_process";
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
+import { promisify } from "node:util";
+
+type FileMetadata = {
+  content: {
+    [key: string]: unknown;
+  };
+};
+
+type Configuration = {
+  weave: {
+    files: {
+      [target: string]: FileMetadata;
+    };
+  };
+};
+
+const execFileAsync = promisify(execFile);
+
+async function evalWeaveConfiguration(ref: string): Promise<Configuration> {
+  const { stdout } = await execFileAsync("nix", ["eval", "--json", ref]);
+
+  return JSON.parse(stdout);
+}
 
 async function main(): Promise<void> {
-  const [command, target] = process.argv.slice(2);
+  const [command, ref] = process.argv.slice(2);
 
   if (command === "init") {
-    if (!target) {
-      throw new Error("target path is required");
+    if (!ref) {
+      throw new Error("flake ref is required");
     }
 
-    await mkdir(dirname(target), { recursive: true });
+    const { weave } = await evalWeaveConfiguration(ref);
 
-    const content = JSON.stringify({ hello: "world" }, null, 2) + "\n";
+    for (const target in weave.files) {
+      const file = weave.files[target]!;
+      const json = JSON.stringify(file.content, null, 2) + "\n";
 
-    await writeFile(target, content, { flag: "wx" });
+      await mkdir(dirname(target), { recursive: true });
+      await writeFile(target, json, { flag: "wx" });
+    }
+
     return;
   }
 
