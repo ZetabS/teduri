@@ -68,12 +68,12 @@ async function main(): Promise<void> {
       let actual: string;
       try {
         actual = await readFile(target, "utf8");
-      } catch (err) {
-        if (err instanceof Error) {
+      } catch (error) {
+        if (error instanceof Error && "code" in error && error.code === "ENOENT") {
           console.log(`${target}: missing`);
           return;
         } else {
-          throw new Error("unexpected error", { cause: err });
+          throw new Error("unexpected error", { cause: error });
         }
       }
 
