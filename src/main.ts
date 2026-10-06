@@ -6,9 +6,10 @@ import { dirname } from "node:path";
 import { promisify } from "node:util";
 
 type FileMetadata = {
-  content: {
+  content?: {
     [key: string]: unknown;
   };
+  text?: string;
 };
 
 type Configuration = {
@@ -39,10 +40,18 @@ async function main(): Promise<void> {
 
     for (const target in weave.files) {
       const file = weave.files[target]!;
-      const json = JSON.stringify(file.content, null, 2) + "\n";
+      let data: string;
+
+      if (file.content) {
+        data = JSON.stringify(file.content, null, 2) + "\n";
+      } else if (file.text) {
+        data = file.text;
+      } else {
+        throw new Error("file content or text is required");
+      }
 
       await mkdir(dirname(target), { recursive: true });
-      await writeFile(target, json, { flag: "wx" });
+      await writeFile(target, data, { flag: "wx" });
     }
 
     return;

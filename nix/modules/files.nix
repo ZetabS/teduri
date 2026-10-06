@@ -9,7 +9,8 @@ in
         with types;
         attrsOf (submodule {
           options = {
-            content = mkOption { type = types.anything; };
+            text = mkOption { type = with types; nullOr str; };
+            content = mkOption { type = with types; nullOr anything; };
           };
         });
     };
