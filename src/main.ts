@@ -45,9 +45,9 @@ async function main(): Promise<void> {
       const file = weave.files[target]!;
       let data: string;
 
-      if (file.content) {
+      if (file.content !== undefined) {
         data = JSON.stringify(file.content, null, 2) + "\n";
-      } else if (file.text) {
+      } else if (file.text !== undefined) {
         data = file.text;
       } else {
         throw new Error("file content or text is required");
