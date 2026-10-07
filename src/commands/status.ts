@@ -1,6 +1,6 @@
 import { readFile } from "fs/promises";
 
-import { evalWeaveConfiguration } from "../main.js";
+import { evalWeaveConfiguration } from "../adapters/nix.js";
 
 export async function status(ref: string) {
   const { weave } = await evalWeaveConfiguration(ref);

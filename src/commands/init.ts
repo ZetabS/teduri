@@ -1,7 +1,7 @@
 import { mkdir, writeFile } from "fs/promises";
 import { dirname } from "path/posix";
 
-import { evalWeaveConfiguration } from "../main.js";
+import { evalWeaveConfiguration } from "../adapters/nix.js";
 
 export async function init(ref: string) {
   const { weave } = await evalWeaveConfiguration(ref);
