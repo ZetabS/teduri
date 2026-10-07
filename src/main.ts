@@ -5,23 +5,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 import { promisify } from "node:util";
 
-type FileConfigWithContent = {
-  content: Record<string, unknown>;
-  text: null;
-};
-
-type FileConfigWithText = {
-  content: null;
-  text: string;
-};
-
-type FileConfig = FileConfigWithContent | FileConfigWithText;
-
-type Configuration = {
-  weave: {
-    files: Record<string, FileConfig>;
-  };
-};
+import type { Configuration } from "./types/configuration.js";
 
 const execFileAsync = promisify(execFile);
 
