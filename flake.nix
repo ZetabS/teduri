@@ -17,6 +17,7 @@
           nodejs
           pnpm
           nix-unit
+          just
         ];
       };
 
