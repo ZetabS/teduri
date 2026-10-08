@@ -1,13 +1,17 @@
 import { mkdir, writeFile } from "fs/promises";
+import { homedir } from "node:os";
 import { dirname } from "path/posix";
 
 import { evalWeaveConfiguration } from "../adapters/nix.js";
+import { createIntent } from "../core/intent.js";
 import { parseManifest } from "../core/manifest.js";
 
 export async function apply(ref: string) {
-  const manifest = parseManifest(await evalWeaveConfiguration(ref));
+  const raw = await evalWeaveConfiguration(ref);
+  const manifest = parseManifest(raw);
+  const intent = createIntent(manifest, homedir());
 
-  for (const file of manifest.files) {
+  for (const file of intent.files) {
     const target = file.target;
     let data: string;
 
