@@ -20,6 +20,8 @@
         ];
       };
 
+      formatter.${system} = pkgs.nixfmt-tree;
+
       packages.${system} =
         let
           teduri = pkgs.callPackage ./nix/package.nix { };
