@@ -1,6 +1,6 @@
 { lib }:
 let
-  teduriModule = import ./modules/files.nix;
+  teduriModule = import ./module.nix;
 
   compileManifest = config: {
     files = lib.mapAttrsToList (
