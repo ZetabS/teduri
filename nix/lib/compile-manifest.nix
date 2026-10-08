@@ -17,5 +17,5 @@ config: {
         inherit target;
         inherit (file) text;
       }
-  ) config.teduri.files;
+  ) config.files;
 }

@@ -4,7 +4,7 @@ let
 in
 {
   options = {
-    teduri.files = mkOption {
+    files = mkOption {
       type =
         with types;
         attrsOf (submodule {

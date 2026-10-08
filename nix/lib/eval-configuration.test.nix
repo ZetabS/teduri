@@ -14,7 +14,7 @@ in
   testStructuredFile = {
     expr = firstFile [
       {
-        teduri.files.".config/test/settings.json" = {
+        files.".config/test/settings.json" = {
           content = {
             hello = "world";
           };
@@ -34,7 +34,7 @@ in
   testTextFile = {
     expr = firstFile [
       {
-        teduri.files.".bashrc" = {
+        files.".bashrc" = {
           text = ''
             export FOO=bar
           '';
@@ -55,7 +55,7 @@ in
     expr =
       (eval [
         {
-          teduri.files = {
+          files = {
             ".config/a.json".content = {
               a = 1;
             };
@@ -88,13 +88,13 @@ in
   testModuleMerge = {
     expr = firstFile [
       {
-        teduri.files.".config/test/settings.json".content = {
+        files.".config/test/settings.json".content = {
           editor.fontSize = 14;
         };
       }
 
       {
-        teduri.files.".config/test/settings.json".content = {
+        files.".config/test/settings.json".content = {
           editor.fontFamily = "JetBrains Mono";
         };
       }
@@ -123,7 +123,7 @@ in
           (
             { value, ... }:
             {
-              teduri.files.".config/test/settings.json".content = {
+              files.".config/test/settings.json".content = {
                 inherit value;
               };
             }
