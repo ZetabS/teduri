@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { diff } from "./commands/diff.js";
 import { init } from "./commands/init.js";
 import { status } from "./commands/status.js";
 
@@ -14,6 +15,8 @@ async function main(): Promise<void> {
     await init(ref);
   } else if (command === "status") {
     await status(ref);
+  } else if (command === "diff") {
+    await diff(ref);
   } else {
     throw new Error(`unknown command: ${command ?? "<none>"}`);
   }
