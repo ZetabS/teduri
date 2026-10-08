@@ -28,14 +28,14 @@ stdenv.mkDerivation (finalAttrs: {
     inherit pnpm;
 
     fetcherVersion = 4;
-    hash = "sha256-qUVoFL0QmHrdlWT/wb8gLAKZSOZeWWXa9OH55e+IUII=";
+    hash = "sha256-B79MxQ6j+xLUJ0uVF5e4VKK1ZGSPvYrTZZ6MnTUWitg=";
   };
 
   installPhase = ''
     runHook preInstall
 
     mkdir -p $out/bin
-    cp dist/main.js $out/bin/teduri
+    cp dist/main.mjs $out/bin/teduri
     chmod +x $out/bin/teduri
     patchShebangs $out/bin
 
