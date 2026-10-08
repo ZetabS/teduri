@@ -2,9 +2,10 @@ import { diff as diffStructured } from "json-diff-ts";
 
 import { readFileIfExists } from "../adapters/file-system.js";
 import { evalWeaveConfiguration } from "../adapters/nix.js";
+import { parseManifest } from "../core/manifest.js";
 
 export async function status(ref: string) {
-  const manifest = await evalWeaveConfiguration(ref);
+  const manifest = parseManifest(await evalWeaveConfiguration(ref));
 
   for (const file of manifest.files) {
     const target = file.target;
@@ -16,21 +17,19 @@ export async function status(ref: string) {
       continue;
     }
 
-    if (file.content !== undefined) {
+    if (file.type === "structured") {
       const changes = diffStructured(file.content, JSON.parse(actual));
       if (changes.length === 0) {
         console.log(`${target}: clean`);
       } else {
         console.log(`${target}: modified`);
       }
-    } else if (file.text !== undefined) {
+    } else if (file.type === "text") {
       if (actual === file.text) {
         console.log(`${target}: clean`);
       } else {
         console.log(`${target}: modified`);
       }
-    } else {
-      throw new Error("file content or text is required");
     }
   }
 }
