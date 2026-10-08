@@ -1,5 +1,3 @@
-import { homedir } from "node:os";
-
 import { diff as diffStructured } from "json-diff-ts";
 
 import { readFileIfExists } from "../adapters/file-system.js";
@@ -7,10 +5,14 @@ import { evalWeaveConfiguration } from "../adapters/nix.js";
 import { createIntent } from "../core/intent.js";
 import { parseManifest } from "../core/manifest.js";
 
-export async function diff(ref: string) {
+type DiffOptions = {
+  base: string;
+};
+
+export async function diff(ref: string, { base }: DiffOptions) {
   const raw = await evalWeaveConfiguration(ref);
   const manifest = parseManifest(raw);
-  const intent = createIntent(manifest, homedir());
+  const intent = createIntent(manifest, base);
 
   for (const file of intent.files) {
     const target = file.target;

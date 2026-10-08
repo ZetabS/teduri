@@ -2,7 +2,7 @@
 
 import { homedir } from "node:os";
 
-import { Command } from "commander";
+import { Command } from "@commander-js/extra-typings";
 
 import { apply } from "./commands/apply.js";
 import { diff } from "./commands/diff.js";
@@ -15,22 +15,19 @@ program.name("weave");
 program
   .command("status")
   .argument("<ref>", "manifest flake reference")
-  .action(async (ref: string) => {
-    await status(ref);
-  });
+  .option("--base <path>", "base directory for relative targets", homedir())
+  .action(status);
 
 program
   .command("diff")
   .argument("<ref>", "manifest flake reference")
-  .action(async (ref: string) => {
-    await diff(ref);
-  });
+  .option("--base <path>", "base directory for relative targets", homedir())
+  .action(diff);
 
 program
   .command("apply")
   .argument("<ref>", "manifest flake reference")
-  .action(async (ref: string) => {
-    await apply(ref);
-  });
+  .option("--base <path>", "base directory for relative targets", homedir())
+  .action(apply);
 
 await program.parseAsync();
