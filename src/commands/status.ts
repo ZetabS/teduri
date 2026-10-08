@@ -1,5 +1,6 @@
+import { diff as diffStructured } from "json-diff-ts";
+
 import { readFileIfExists } from "../adapters/file-system.js";
-import { diffStructured } from "../adapters/json-diff-ts.js";
 import { evalWeaveConfiguration } from "../adapters/nix.js";
 
 export async function status(ref: string) {
