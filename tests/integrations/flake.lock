@@ -19,13 +19,13 @@
     "root": {
       "inputs": {
         "nixpkgs": [
-          "weave",
+          "teduri",
           "nixpkgs"
         ],
-        "weave": "weave"
+        "teduri": "teduri"
       }
     },
-    "weave": {
+    "teduri": {
       "inputs": {
         "nixpkgs": "nixpkgs"
       },

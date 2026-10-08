@@ -1,7 +1,7 @@
 import { mkdir, writeFile } from "fs/promises";
 import { dirname } from "path/posix";
 
-import { evalWeaveConfiguration } from "../adapters/nix.js";
+import { evalTeduriConfiguration } from "../adapters/nix.js";
 import { createIntent } from "../core/intent.js";
 import { parseManifest } from "../core/manifest.js";
 
@@ -10,7 +10,7 @@ type ApplyOptions = {
 };
 
 export async function apply(ref: string, { base }: ApplyOptions) {
-  const raw = await evalWeaveConfiguration(ref);
+  const raw = await evalTeduriConfiguration(ref);
   const manifest = parseManifest(raw);
   const intent = createIntent(manifest, base);
 

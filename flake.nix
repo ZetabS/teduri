@@ -1,5 +1,5 @@
 {
-  description = "Weave";
+  description = "Teduri";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
@@ -11,8 +11,8 @@
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
 
-      weave = pkgs.callPackage ./package.nix { };
-      weaveLib = import ./nix/lib.nix { inherit (nixpkgs) lib; };
+      teduri = pkgs.callPackage ./package.nix { };
+      teduriLib = import ./nix/lib.nix { inherit (nixpkgs) lib; };
     in
     {
       devShells.${system}.default = pkgs.mkShell {
@@ -23,14 +23,14 @@
       };
 
       packages.${system} = {
-        default = weave;
-        inherit weave;
+        default = teduri;
+        inherit teduri;
       };
 
       lib = import ./nix/lib.nix;
 
       checks.${system} = {
-        basic = import ./nix/tests/basic.nix { inherit pkgs weaveLib; };
+        basic = import ./nix/tests/basic.nix { inherit pkgs teduriLib; };
       };
     };
 }

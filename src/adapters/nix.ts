@@ -3,7 +3,7 @@ import { promisify } from "util";
 
 const execFileAsync = promisify(execFile);
 
-export async function evalWeaveConfiguration(ref: string): Promise<string> {
+export async function evalTeduriConfiguration(ref: string): Promise<string> {
   const { stdout } = await execFileAsync("nix", ["eval", "--json", ref]);
 
   return stdout;

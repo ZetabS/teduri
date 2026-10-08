@@ -4,7 +4,7 @@ let
 in
 {
   options = {
-    weave.files = mkOption {
+    teduri.files = mkOption {
       type =
         with types;
         attrsOf (submodule {

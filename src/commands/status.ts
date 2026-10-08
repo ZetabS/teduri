@@ -1,7 +1,7 @@
 import { diff as diffStructured } from "json-diff-ts";
 
 import { readFileIfExists } from "../adapters/file-system.js";
-import { evalWeaveConfiguration } from "../adapters/nix.js";
+import { evalTeduriConfiguration } from "../adapters/nix.js";
 import { createIntent } from "../core/intent.js";
 import { parseManifest } from "../core/manifest.js";
 
@@ -10,7 +10,7 @@ type StatusOptions = {
 };
 
 export async function status(ref: string, { base }: StatusOptions) {
-  const raw = await evalWeaveConfiguration(ref);
+  const raw = await evalTeduriConfiguration(ref);
   const manifest = parseManifest(raw);
   const intent = createIntent(manifest, base);
 

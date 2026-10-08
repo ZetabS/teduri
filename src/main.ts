@@ -10,7 +10,7 @@ import { status } from "./commands/status.js";
 
 const program = new Command();
 
-program.name("weave");
+program.name("teduri");
 
 program
   .command("status")

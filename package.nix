@@ -11,7 +11,7 @@ let
   pnpm = pnpm_11;
 in
 stdenv.mkDerivation (finalAttrs: {
-  pname = "weave";
+  pname = "teduri";
   version = "0.0.0";
 
   src = ./.;
@@ -35,8 +35,8 @@ stdenv.mkDerivation (finalAttrs: {
     runHook preInstall
 
     mkdir -p $out/bin
-    cp dist/main.js $out/bin/weave
-    chmod +x $out/bin/weave
+    cp dist/main.js $out/bin/teduri
+    chmod +x $out/bin/teduri
     patchShebangs $out/bin
 
     runHook postInstall

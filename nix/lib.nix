@@ -1,6 +1,6 @@
 { lib }:
 let
-  weaveModule = import ./modules/files.nix;
+  teduriModule = import ./modules/files.nix;
 
   compileManifest = config: {
     files = lib.mapAttrsToList (
@@ -17,7 +17,7 @@ let
           inherit target;
           inherit (file) text;
         }
-    ) config.weave.files;
+    ) config.teduri.files;
   };
 in
 {
@@ -32,7 +32,7 @@ in
         inherit specialArgs;
 
         modules = [
-          weaveModule
+          teduriModule
         ]
         ++ modules;
       };

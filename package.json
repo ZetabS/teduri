@@ -1,9 +1,9 @@
 {
-  "name": "weave",
+  "name": "teduri",
   "version": "0.0.0",
   "private": true,
   "bin": {
-    "weave": "./dist/main.js"
+    "teduri": "./dist/main.js"
   },
   "type": "module",
   "scripts": {

@@ -1,13 +1,13 @@
 {
   pkgs,
-  weaveLib,
+  teduriLib,
 }:
 
 let
-  evaluated = weaveLib.evalConfiguration {
+  evaluated = teduriLib.evalConfiguration {
     modules = [
       {
-        weave.files.".config/test/settings.json" = {
+        teduri.files.".config/test/settings.json" = {
           content = {
             hello = "world";
           };
@@ -16,7 +16,7 @@ let
     ];
   };
 
-  actual = evaluated.config.weave.files.".config/test/settings.json";
+  actual = evaluated.config.teduri.files.".config/test/settings.json";
 
   expected = {
     content = {
@@ -26,6 +26,6 @@ let
 in
 assert actual == expected;
 
-pkgs.runCommand "weave-basic-test" { } ''
+pkgs.runCommand "teduri-basic-test" { } ''
   touch $out
 ''

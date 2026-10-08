@@ -1,17 +1,17 @@
 {
   inputs = {
-    weave.url = "path:../../";
-    nixpkgs.follows = "weave/nixpkgs";
+    teduri.url = "path:../../";
+    nixpkgs.follows = "teduri/nixpkgs";
   };
 
   outputs =
     inputs@{ nixpkgs, ... }:
     let
       inherit (nixpkgs) lib;
-      weave = inputs.weave.lib { inherit lib; };
+      teduri = inputs.teduri.lib { inherit lib; };
     in
     {
-      weaveConfigurations.test = weave.evalConfiguration {
+      teduriConfigurations.test = teduri.evalConfiguration {
         modules = [ ./config.nix ];
       };
     };
