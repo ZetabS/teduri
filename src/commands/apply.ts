@@ -1,5 +1,5 @@
 import { mkdir, writeFile } from "fs/promises";
-import { dirname } from "path/posix";
+import { dirname } from "node:path";
 
 import { evalTeduriConfiguration } from "../adapters/nix.js";
 import { createIntent } from "../core/intent.js";
