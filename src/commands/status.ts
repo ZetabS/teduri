@@ -1,5 +1,4 @@
-import { readFile } from "fs/promises";
-
+import { readFileIfExists } from "../adapters/file-system.js";
 import { diffStructured } from "../adapters/json-diff-ts.js";
 import { evalWeaveConfiguration } from "../adapters/nix.js";
 
@@ -8,16 +7,12 @@ export async function status(ref: string) {
 
   for (const file of manifest.files) {
     const target = file.target;
-    let actual: string;
-    try {
-      actual = await readFile(target, "utf8");
-    } catch (error) {
-      if (error instanceof Error && "code" in error && error.code === "ENOENT") {
-        console.log(`${target}: missing`);
-        return;
-      } else {
-        throw new Error("unexpected error", { cause: error });
-      }
+
+    const { exists, content: actual } = await readFileIfExists(target);
+
+    if (!exists) {
+      console.log(`${target}: missing`);
+      continue;
     }
 
     if (file.content !== undefined) {
