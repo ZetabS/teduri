@@ -1,4 +1,4 @@
-import { mkdir, writeFile } from "fs/promises";
+import { mkdir, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 
 import { evalTeduriConfiguration } from "../adapters/nix.js";
