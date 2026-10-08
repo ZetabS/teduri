@@ -1,5 +1,6 @@
 import { readFile } from "fs/promises";
 
+import { diffStructured } from "../adapters/json-diff-ts.js";
 import { evalWeaveConfiguration } from "../adapters/nix.js";
 
 export async function status(ref: string) {
@@ -20,7 +21,12 @@ export async function status(ref: string) {
     }
 
     if (file.content !== null) {
-      console.log(`${target}: structured status not implemented yet`);
+      const changes = diffStructured(file.content, JSON.parse(actual));
+      if (changes.length === 0) {
+        console.log(`${target}: clean`);
+      } else {
+        console.log(`${target}: modified`);
+      }
     } else if (file.text !== null) {
       if (actual === file.text) {
         console.log(`${target}: clean`);

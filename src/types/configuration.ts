@@ -1,5 +1,7 @@
+import type { JsonValue } from "./json-value.js";
+
 type FileConfigWithContent = {
-  content: Record<string, unknown>;
+  content: Record<string, JsonValue>;
   text: null;
 };
 

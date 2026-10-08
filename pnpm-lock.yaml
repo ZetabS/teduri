@@ -7,6 +7,10 @@ settings:
 importers:
 
   .:
+    dependencies:
+      json-diff-ts:
+        specifier: ^4.10.4
+        version: 4.10.4
     devDependencies:
       '@types/node':
         specifier: ^24.19.1
@@ -439,6 +443,9 @@ packages:
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
 
+  json-diff-ts@4.10.4:
+    resolution: {integrity: sha512-/Ipg6migsLtNQQz+I3jm+hnPGZx4x47cVXTr4tgvxepQJKIB5iDmyguxicZ/59wIg3OlGgIGwIMftn+LqT8lNQ==}
+
   oxfmt@0.71.0:
     resolution: {integrity: sha512-lUPUl0d/+Io5pDrsPXWs6rB4N/bpB78oj9CTDpnbulfDz+0r3XXcHPlQ7kRPJ2GjIT4nX+/mcqunOeP9BvsEtg==}
     engines: {node: ^20.19.0 || >=22.12.0}
@@ -711,6 +718,8 @@ snapshots:
 
   fsevents@2.3.3:
     optional: true
+
+  json-diff-ts@4.10.4: {}
 
   oxfmt@0.71.0:
     dependencies:
