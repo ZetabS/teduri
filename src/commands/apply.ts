@@ -2,8 +2,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 
 import { evalTeduriConfiguration } from "../adapters/nix.js";
-import { createIntent } from "../core/intent.js";
-import { parseManifest } from "../core/manifest.js";
+import { parseManifestInput, resolveManifest } from "../core/manifest.js";
 
 type ApplyOptions = {
   base: string;
@@ -11,10 +10,10 @@ type ApplyOptions = {
 
 export async function apply(ref: string, { base }: ApplyOptions) {
   const raw = await evalTeduriConfiguration(ref);
-  const manifest = parseManifest(raw);
-  const intent = createIntent(manifest, base);
+  const input = parseManifestInput(raw);
+  const manifest = resolveManifest(input, base);
 
-  for (const file of intent.files) {
+  for (const file of manifest.files) {
     const target = file.target;
     let data: string;
 

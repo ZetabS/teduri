@@ -1,3 +1,5 @@
+import { resolve } from "node:path";
+
 import { z } from "zod";
 
 import type { JsonValue } from "../types/json-value.js";
@@ -13,7 +15,7 @@ const jsonValueSchema: z.ZodType<JsonValue> = z.lazy(() =>
   ]),
 );
 
-const fileSchema = z.discriminatedUnion("type", [
+const manifestInputFileSchema = z.discriminatedUnion("type", [
   z.object({
     type: z.literal("structured"),
     target: z.string(),
@@ -26,14 +28,39 @@ const fileSchema = z.discriminatedUnion("type", [
   }),
 ]);
 
-const manifestSchema = z.object({
-  files: z.array(fileSchema),
+const manifestInputSchema = z.object({
+  files: z.array(manifestInputFileSchema),
 });
 
-export type Manifest = z.infer<typeof manifestSchema>;
-export type ManifestFile = z.infer<typeof fileSchema>;
+export type ManifestInput = z.infer<typeof manifestInputSchema>;
+export type ManifestInputFile = z.infer<typeof manifestInputFileSchema>;
 
-export function parseManifest(input: string): Manifest {
-  const json = JSON.parse(input);
-  return z.parse(manifestSchema, json);
+export type Manifest = {
+  files: ManifestFile[];
+};
+
+export type ManifestFile =
+  | {
+      type: "structured";
+      target: string;
+      content: JsonValue;
+    }
+  | {
+      type: "text";
+      target: string;
+      text: string;
+    };
+
+export function parseManifestInput(text: string): ManifestInput {
+  const json = JSON.parse(text);
+  return z.parse(manifestInputSchema, json);
+}
+
+export function resolveManifest(manifestInput: ManifestInput, base: string): Manifest {
+  return {
+    files: manifestInput.files.map((file) => ({
+      ...file,
+      target: resolve(base, file.target),
+    })),
+  };
 }
