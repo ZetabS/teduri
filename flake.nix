@@ -16,6 +16,7 @@
         packages = with pkgs; [
           nodejs
           pnpm
+          nix-unit
         ];
       };
 
@@ -30,5 +31,6 @@
 
       lib = import ./nix/lib;
 
+      tests = import ./nix/tests.nix { inherit (nixpkgs) lib; };
     };
 }
