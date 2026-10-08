@@ -1,28 +1,36 @@
 #!/usr/bin/env node
 
+import { homedir } from "node:os";
+
+import { Command } from "commander";
+
 import { apply } from "./commands/apply.js";
 import { diff } from "./commands/diff.js";
 import { status } from "./commands/status.js";
 
-async function main(): Promise<void> {
-  const [command, ref] = process.argv.slice(2);
+const program = new Command();
 
-  if (!ref) {
-    throw new Error("flake ref is required");
-  }
+program.name("weave");
 
-  if (command === "apply") {
-    await apply(ref);
-  } else if (command === "status") {
+program
+  .command("status")
+  .argument("<ref>", "manifest flake reference")
+  .action(async (ref: string) => {
     await status(ref);
-  } else if (command === "diff") {
-    await diff(ref);
-  } else {
-    throw new Error(`unknown command: ${command ?? "<none>"}`);
-  }
-}
+  });
 
-main().catch((error) => {
-  console.error(error);
-  process.exitCode = 1;
-});
+program
+  .command("diff")
+  .argument("<ref>", "manifest flake reference")
+  .action(async (ref: string) => {
+    await diff(ref);
+  });
+
+program
+  .command("apply")
+  .argument("<ref>", "manifest flake reference")
+  .action(async (ref: string) => {
+    await apply(ref);
+  });
+
+await program.parseAsync();
