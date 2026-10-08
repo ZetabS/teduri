@@ -13,7 +13,7 @@ stdenv.mkDerivation (finalAttrs: {
   pname = "teduri";
   version = "0.0.0";
 
-  src = ./.;
+  src = ../.;
 
   nativeBuildInputs = [
     nodejs
