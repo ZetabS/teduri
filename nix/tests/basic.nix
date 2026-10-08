@@ -16,9 +16,11 @@ let
     ];
   };
 
-  actual = evaluated.config.teduri.files.".config/test/settings.json";
+  actual = builtins.head evaluated.manifest.files;
 
   expected = {
+    type = "structured";
+    target = ".config/test/settings.json";
     content = {
       hello = "world";
     };
