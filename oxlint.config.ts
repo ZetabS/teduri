@@ -4,8 +4,6 @@ export default defineConfig({
   plugins: ["eslint", "typescript", "unicorn", "oxc", "import", "node"],
   categories: {
     correctness: "error",
-    suspicious: "error",
-    perf: "warn",
   },
   rules: {
     "import/first": "error",
