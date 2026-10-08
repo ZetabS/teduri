@@ -3,7 +3,7 @@ import { dirname } from "path/posix";
 
 import { evalWeaveConfiguration } from "../adapters/nix.js";
 
-export async function init(ref: string) {
+export async function apply(ref: string) {
   const { weave } = await evalWeaveConfiguration(ref);
 
   for (const target in weave.files) {
@@ -19,6 +19,6 @@ export async function init(ref: string) {
     }
 
     await mkdir(dirname(target), { recursive: true });
-    await writeFile(target, data, { flag: "wx" });
+    await writeFile(target, data);
   }
 }

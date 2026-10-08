@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
+import { apply } from "./commands/apply.js";
 import { diff } from "./commands/diff.js";
-import { init } from "./commands/init.js";
 import { status } from "./commands/status.js";
 
 async function main(): Promise<void> {
@@ -11,8 +11,8 @@ async function main(): Promise<void> {
     throw new Error("flake ref is required");
   }
 
-  if (command === "init") {
-    await init(ref);
+  if (command === "apply") {
+    await apply(ref);
   } else if (command === "status") {
     await status(ref);
   } else if (command === "diff") {
