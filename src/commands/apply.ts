@@ -26,6 +26,7 @@ export async function apply(ref: string, { base }: ApplyOptions) {
       throw new Error("file content or text is required");
     }
 
+    console.log(target);
     await mkdir(dirname(target), { recursive: true });
     await writeFile(target, data);
   }
