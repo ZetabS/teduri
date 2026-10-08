@@ -6,7 +6,6 @@
   pnpmConfigHook,
   pnpmBuildHook,
 }:
-
 let
   pnpm = pnpm_11;
 in

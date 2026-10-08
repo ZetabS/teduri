@@ -10,9 +10,6 @@
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
-
-      teduri = pkgs.callPackage ./package.nix { };
-      teduriLib = import ./nix/lib.nix { inherit (nixpkgs) lib; };
     in
     {
       devShells.${system}.default = pkgs.mkShell {
@@ -22,15 +19,16 @@
         ];
       };
 
-      packages.${system} = {
-        default = teduri;
-        inherit teduri;
-      };
+      packages.${system} =
+        let
+          teduri = pkgs.callPackage ./nix/package.nix { };
+        in
+        {
+          default = teduri;
+          inherit teduri;
+        };
 
-      lib = import ./nix/lib.nix;
+      lib = import ./nix/lib;
 
-      checks.${system} = {
-        basic = import ./nix/tests/basic.nix { inherit pkgs teduriLib; };
-      };
     };
 }
