@@ -1,6 +1,24 @@
 { lib }:
 let
   weaveModule = import ./modules/files.nix;
+
+  compileManifest = config: {
+    files = lib.mapAttrsToList (
+      target: file:
+      if file.content != null then
+        {
+          type = "structured";
+          inherit target;
+          inherit (file) content;
+        }
+      else
+        {
+          type = "text";
+          inherit target;
+          inherit (file) text;
+        }
+    ) config.weave.files;
+  };
 in
 {
   evalConfiguration =
@@ -8,12 +26,19 @@ in
       modules ? [ ],
       specialArgs ? { },
     }:
-    lib.evalModules {
-      inherit specialArgs;
+    let
 
-      modules = [
-        weaveModule
-      ]
-      ++ modules;
+      evaluated = lib.evalModules {
+        inherit specialArgs;
+
+        modules = [
+          weaveModule
+        ]
+        ++ modules;
+      };
+    in
+    evaluated
+    // {
+      manifest = compileManifest evaluated.config;
     };
 }

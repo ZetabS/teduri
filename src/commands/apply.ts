@@ -4,13 +4,13 @@ import { dirname } from "path/posix";
 import { evalWeaveConfiguration } from "../adapters/nix.js";
 
 export async function apply(ref: string) {
-  const { weave } = await evalWeaveConfiguration(ref);
+  const manifest = await evalWeaveConfiguration(ref);
 
-  for (const target in weave.files) {
-    const file = weave.files[target]!;
+  for (const file of manifest.files) {
+    const target = file.target;
     let data: string;
 
-    if (file.content !== null) {
+    if (file.content !== undefined) {
       data = JSON.stringify(file.content, null, 2) + "\n";
     } else if (file.text !== null) {
       data = file.text;

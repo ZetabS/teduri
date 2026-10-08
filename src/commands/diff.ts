@@ -4,10 +4,10 @@ import { diffStructured } from "../adapters/json-diff-ts.js";
 import { evalWeaveConfiguration } from "../adapters/nix.js";
 
 export async function diff(ref: string) {
-  const { weave } = await evalWeaveConfiguration(ref);
+  const manifest = await evalWeaveConfiguration(ref);
 
-  for (const target in weave.files) {
-    const file = weave.files[target]!;
+  for (const file of manifest.files) {
+    const target = file.target;
     let actual: string;
     try {
       actual = await readFile(target, "utf8");
@@ -20,12 +20,12 @@ export async function diff(ref: string) {
       }
     }
 
-    if (file.content !== null) {
+    if (file.content !== undefined) {
       const changes = diffStructured(file.content, JSON.parse(actual));
       if (changes.length !== 0) {
         console.dir(changes, { depth: null });
       }
-    } else if (file.text !== null) {
+    } else if (file.text !== undefined) {
       if (actual !== file.text) {
         console.log(`${target}: text diff not implemented yet`);
       }
