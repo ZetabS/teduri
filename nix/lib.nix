@@ -27,7 +27,6 @@ in
       specialArgs ? { },
     }:
     let
-
       evaluated = lib.evalModules {
         inherit specialArgs;
 
