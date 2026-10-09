@@ -3,8 +3,8 @@ import { promisify } from "node:util";
 
 import { z } from "zod";
 
-import { type ManifestInput, manifestInputSchema } from "../core/manifest-input.js";
-import { type Manifest, resolveManifest } from "../core/manifest.js";
+import { type ManifestInput, manifestInputSchema } from "../domain/manifest-input.js";
+import { type Manifest, resolveManifest } from "../domain/manifest.js";
 
 const execFileAsync = promisify(execFile);
 
