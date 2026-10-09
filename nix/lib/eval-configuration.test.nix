@@ -8,7 +8,7 @@ let
       inherit modules;
     };
 
-  firstFile = modules: builtins.head (eval modules).manifest.files;
+  firstFile = modules: builtins.head (eval modules).config.compiled.files;
 in
 {
   testStructuredFile = {
@@ -65,7 +65,7 @@ in
             };
           };
         }
-      ]).manifest.files;
+      ]).config.compiled.files;
 
     expected = [
       {
@@ -129,7 +129,7 @@ in
             }
           )
         ];
-      }).manifest.files;
+      }).config.compiled.files;
 
     expected = [
       {

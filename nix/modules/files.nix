@@ -1,6 +1,7 @@
-{ lib }:
+{ lib, config, ... }:
 let
   inherit (lib) mkOption types;
+  compile = import ../utils/compile.nix { inherit lib; };
 in
 {
   options = {
@@ -14,5 +15,12 @@ in
           };
         });
     };
+    compiled = mkOption {
+      type = with types; anything;
+      readOnly = true;
+    };
+  };
+  config = {
+    compiled = compile { inherit (config) files; };
   };
 }
