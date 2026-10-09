@@ -1,17 +1,14 @@
 import { mkdir, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 
-import { evalTeduriConfiguration } from "../adapters/nix.js";
-import { parseManifestInput, resolveManifest } from "../core/manifest.js";
+import { loadManifestFromNix } from "../adapters/load-manifest.js";
 
 type ApplyOptions = {
   base: string;
 };
 
 export async function apply(ref: string, { base }: ApplyOptions) {
-  const raw = await evalTeduriConfiguration(ref);
-  const input = parseManifestInput(raw);
-  const manifest = resolveManifest(input, base);
+  const manifest = await loadManifestFromNix(ref, base);
 
   for (const file of manifest.files) {
     const target = file.target;

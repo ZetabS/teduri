@@ -1,17 +1,14 @@
 import { diff as diffStructured } from "json-diff-ts";
 
 import { readFileIfExists } from "../adapters/file-system.js";
-import { evalTeduriConfiguration } from "../adapters/nix.js";
-import { parseManifestInput, resolveManifest } from "../core/manifest.js";
+import { loadManifestFromNix } from "../adapters/load-manifest.js";
 
 type StatusOptions = {
   base: string;
 };
 
 export async function status(ref: string, { base }: StatusOptions) {
-  const raw = await evalTeduriConfiguration(ref);
-  const input = parseManifestInput(raw);
-  const manifest = resolveManifest(input, base);
+  const manifest = await loadManifestFromNix(ref, base);
 
   for (const file of manifest.files) {
     const target = file.target;
