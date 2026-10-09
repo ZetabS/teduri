@@ -1,7 +1,7 @@
 { lib, config, ... }:
 let
   inherit (lib) mkOption types;
-  compile = import ../utils/compile.nix { inherit lib; };
+  compile = import ./compile.nix { inherit lib; };
 in
 {
   options = {

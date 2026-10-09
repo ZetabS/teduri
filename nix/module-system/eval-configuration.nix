@@ -5,5 +5,5 @@
 }:
 lib.evalModules {
   inherit specialArgs;
-  modules = [ ../modules/files.nix ] ++ modules;
+  modules = [ ./module.nix ] ++ modules;
 }
