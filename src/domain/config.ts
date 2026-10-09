@@ -13,7 +13,7 @@ const jsonValueSchema: z.ZodType<JsonValue> = z.lazy(() =>
   ]),
 );
 
-const manifestInputFileSchema = z.discriminatedUnion("type", [
+const fileConfigSchema = z.discriminatedUnion("type", [
   z.object({
     type: z.literal("structured"),
     target: z.string(),
@@ -26,13 +26,13 @@ const manifestInputFileSchema = z.discriminatedUnion("type", [
   }),
 ]);
 
-export const manifestInputSchema = z.object({
-  files: z.array(manifestInputFileSchema),
+export const configSchema = z.object({
+  files: z.array(fileConfigSchema),
 });
 
 // I know you can infer types from zod schema,
 // but I decided to declare the explicit types here for understanding.
-type ManifestInputFile =
+type FileConfig =
   | {
       type: "structured";
       target: string;
@@ -44,6 +44,6 @@ type ManifestInputFile =
       text: string;
     };
 
-export type ManifestInput = {
-  files: ManifestInputFile[];
+export type Config = {
+  files: FileConfig[];
 };

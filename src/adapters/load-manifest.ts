@@ -3,7 +3,7 @@ import { promisify } from "node:util";
 
 import { z } from "zod";
 
-import { type ManifestInput, manifestInputSchema } from "../domain/manifest-input.js";
+import { type Config, configSchema } from "../domain/config.js";
 import { type Manifest, resolveManifest } from "../domain/manifest.js";
 
 const execFileAsync = promisify(execFile);
@@ -17,7 +17,7 @@ async function nixEvalJson(ref: string): Promise<string> {
 export async function loadManifestFromNix(ref: string, base: string): Promise<Manifest> {
   const text = await nixEvalJson(ref);
   const raw = JSON.parse(text);
-  const input: ManifestInput = z.parse(manifestInputSchema, raw);
+  const config: Config = z.parse(configSchema, raw);
 
-  return resolveManifest(input, base);
+  return resolveManifest(config, base);
 }

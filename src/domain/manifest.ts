@@ -1,7 +1,7 @@
 import { resolve } from "node:path";
 
 import type { JsonValue } from "../types/json-value.js";
-import type { ManifestInput } from "./manifest-input.js";
+import type { Config } from "./config.js";
 
 export type Manifest = {
   files: ManifestFile[];
@@ -19,9 +19,9 @@ export type ManifestFile =
       text: string;
     };
 
-export function resolveManifest(manifestInput: ManifestInput, base: string): Manifest {
+export function resolveManifest(config: Config, base: string): Manifest {
   return {
-    files: manifestInput.files.map((file) => ({
+    files: config.files.map((file) => ({
       ...file,
       target: resolve(base, file.target),
     })),
